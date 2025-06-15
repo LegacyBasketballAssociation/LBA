@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="index.css">
+  <title>LBA Home Page</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-logo">LBA</div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="#" class="navbar-logo">LBA</a>
+      <ul class="navbar-menu">
+        <li class="navbar-item"><a href="#" class="navbar-link active">Home</a></li>
+        <li class="navbar-item"><a href="schedule.html" class="navbar-link">Schedule</a></li>
+        <li class="navbar-item"><a href="/players.html" class="navbar-link">Players</a></li>
+        <li class="navbar-item"><a href="/stats.html" class="navbar-link">Stats</a></li>
+        <li class="navbar-item"><a href="teams.html" class="navbar-link">Teams</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- News -->
+  <div class="news-ticker-container">
+    <div class="news-ticker-header">
+      <h2>LATEST LBA NEWS</h2>
+    </div>
+    <div class="ticker-nav">
+      <button id="prevBtn">Previous</button>
+      <button id="nextBtn">Next</button>
+    </div>
+    <div class="news-ticker" id="newsTicker">
+      <div class="loading">Loading news...</div>
+    </div>
+  </div>
+
+  <!-- Standings -->
+  <div class="tables-wrapper">
+    <h2>Standings</h2>
+    <table id="standingsTable">
+      <thead>
+        <tr id="standingsHeader"></tr>
+      </thead>
+      <tbody id="standingsBody"></tbody>
+    </table>
+  </div>
+<script src="index.js"></script>
+</body>
+</html>
