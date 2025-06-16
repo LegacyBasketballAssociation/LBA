@@ -19,7 +19,7 @@ const teams = {
         logo: "https://drive.google.com/thumbnail?id=1E-WHv0i16L6ViK2AhLsY3tyduxo7j2nS&sz=w250-h180", 
         dataRow: 15, 
         dataRow2: 19, 
-        dataRow3: 10, 
+        dataRow3: 57, 
         dataRow4: 33, 
         dataRow5: 14 
     },
@@ -65,7 +65,7 @@ const teams = {
         dataRow2: 6, 
         dataRow3: 38, 
         dataRow4: 40, 
-        dataRow5: 6
+        dataRow5: 5
     },
     NewYorkCitySlickers: { 
         name: "New York City Slickers", 
