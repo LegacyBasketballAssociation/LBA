@@ -7,14 +7,20 @@
   <title>Player Page</title>
   </head>
 <body>
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-logo">LBA</div>
+    </div>
+  </div>
   <nav class="navbar">
     <div class="navbar-container">
       <a href="index.html" class="navbar-logo">LBA</a>
       <ul class="navbar-menu">
         <li class="navbar-item"><a href="index.html" class="navbar-link">Home</a></li>
-        <li class="navbar-item"><a href="schedule.html" class="navbar-link">Schedule</a></li>
-        <li class="navbar-item"><a href="/players.html" class="navbar-link">Players</a></li>
-        <li class="navbar-item"><a href="/stats.html" class="navbar-link">Stats</a></li>
+        <li class="navbar-item"><a href="/schedule.html" class="navbar-link">Schedule</a></li>
+        <li class="navbar-item"><a href="#" class="navbar-link active">Players</a></li>
+        <li class="navbar-item"><a href="#" class="navbar-link">Stats</a></li>
         <li class="navbar-item"><a href="teams.html" class="navbar-link">Teams</a></li>
       </ul>
     </div>
@@ -361,6 +367,82 @@
             </div>
           </div>
         </div>
+      
+      <!-- Tendencies Content -->
+      <div id="tendencies-content" class="master-player-content">
+        <div class="tendencies-grid">
+          <div class="attribute-category">
+            <h4>Offensive Tendencies</h4>
+            <div class="attribute-row">
+              <span class="attribute-label">Shoot Inside:</span>
+              <span id="tendency-inside" class="attribute-value">-</span>
+            </div>
+            <div class="attribute-row">
+              <span class="attribute-label">Shoot Mid-Range:</span>
+              <span id="tendency-mid" class="attribute-value">-</span>
+            </div>
+            <div class="attribute-row">
+              <span class="attribute-label">Shoot 3PT:</span>
+              <span id="tendency-three" class="attribute-value">-</span>
+            </div>
+            <div class="attribute-row">
+              <span class="attribute-label">Drive to Basket:</span>
+              <span id="tendency-drive" class="attribute-value">-</span>
+            </div>
+            <div class="attribute-row">
+              <span class="attribute-label">Post Up:</span>
+              <span id="tendency-post" class="attribute-value">-</span>
+            </div>
+          </div>
+          
+          <div class="attribute-category">
+            <h4>Defensive Tendencies</h4>
+            <div class="attribute-row">
+              <span class="attribute-label">On-Ball Defense:</span>
+              <span id="tendency-onball" class="attribute-value">-</span>
+            </div>
+            <div class="attribute-row">
+              <span class="attribute-label">Steal Attempts:</span>
+              <span id="tendency-steal" class="attribute-value">-</span>
+            </div>
+            <div class="attribute-row">
+              <span class="attribute-label">Block Attempts:</span>
+              <span id="tendency-block" class="attribute-value">-</span>
+            </div>
+            <div class="attribute-row">
+              <span class="attribute-label">Help Defense:</span>
+              <span id="tendency-help" class="attribute-value">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Hotzones Content -->
+      <div id="hotzones-content" class="master-player-content">
+        <div class="hotzones-container">
+          <p>Player shooting percentages by area on the court</p>
+          <div class="hotzones-court">
+            <!-- This would be replaced with an actual court visualization -->
+            <p style="text-align: center; margin-top: 120px;">Hotzones visualization would appear here</p>
+          </div>
+          <div class="attribute-row">
+            <span class="attribute-label">Overall Shooting %:</span>
+            <span id="overall-shooting" class="attribute-value">-</span>
+          </div>
+          <div class="attribute-row">
+            <span class="attribute-label">3PT Shooting %:</span>
+            <span id="threept-shooting" class="attribute-value">-</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Animations Content -->
+      <div id="animations-content" class="master-player-content">
+        <div class="animations-list">
+          <!-- Animations will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
     
     <h2 style="color: var(--accent-gold); margin-top: 30px;">Season Stats:</h2>
     <table class="stats-table">
