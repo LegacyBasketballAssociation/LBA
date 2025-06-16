@@ -7,14 +7,22 @@
   <title>Team Page</title>
 </head>
 <body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-logo">LBA</div>
+    </div>
+  </div>
+
   <nav class="navbar">
     <div class="navbar-container">
       <a href="index.html" class="navbar-logo">LBA</a>
       <ul class="navbar-menu">
         <li class="navbar-item"><a href="index.html" class="navbar-link">Home</a></li>
-        <li class="navbar-item"><a href="schedule.html" class="navbar-link">Schedule</a></li>
-        <li class="navbar-item"><a href="/players.html" class="navbar-link">Players</a></li>
-        <li class="navbar-item"><a href="/stats.html" class="navbar-link">Stats</a></li>
+        <li class="navbar-item"><a href="/schedule.html" class="navbar-link">Schedule</a></li>
+        <li class="navbar-item"><a href="#" class="navbar-link">Players</a></li>
+        <li class="navbar-item"><a href="#" class="navbar-link">Stats</a></li>
         <li class="navbar-item"><a href="teams.html" class="navbar-link active">Teams</a></li>
       </ul>
     </div>
@@ -46,27 +54,15 @@
       </tbody>
     </table>
 
-    <!-- New Player Stat Averages table -->
     <h2 class="stats-header">Player Stat Averages:</h2>
     <div style="overflow-x: auto;">
       <table class="stats-table">
         <thead>
           <tr>
-            <th>Player Name</th>
-            <th>PPG</th>
-            <th>RPG</th>
-            <th>APG</th>
-            <th>SPG</th>
-            <th>BPG</th>
-            <th>TOV</th>
-            <th>FG%</th>
-            <th>3P%</th>
-            <th>FT%</th>
-            <th>ORPG</th>
-            <th>DRPG</th>
-            <th>FPG</th>
-            <th>+/-</th>
-            <th>PRF</th>
+            <th>Player Name</th><th>PPG</th><th>RPG</th><th>APG</th>
+            <th>SPG</th><th>BPG</th><th>TOV</th><th>FG%</th>
+            <th>3P%</th><th>FT%</th><th>ORPG</th><th>DRPG</th>
+            <th>FPG</th><th>+/-</th><th>PRF</th>
           </tr>
         </thead>
         <tbody id="statsBody">
