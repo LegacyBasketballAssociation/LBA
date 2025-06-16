@@ -65,7 +65,7 @@ const teams = {
         dataRow2: 6, 
         dataRow3: 38, 
         dataRow4: 40, 
-        dataRow5: 36 
+        dataRow5: 6
     },
     NewYorkCitySlickers: { 
         name: "New York City Slickers", 
@@ -97,8 +97,8 @@ const teams = {
         dataRow: 4, 
         dataRow2: 39, 
         dataRow3: 30, 
-        dataRow4: 5, 
-        dataRow5: 35 
+        dataRow4: 36, 
+        dataRow5: 35
     }
 };
 
