@@ -1,4 +1,67 @@
-body, body * {
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+
+    .loading-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .loading-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loading-spinner {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 6px solid rgba(255, 215, 0, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--accent-gold);
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-logo {
+      color: var(--accent-gold);
+      font-weight: bold;
+      font-size: 28px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* === Your existing CSS styles === */
+    body, body * {
       font-weight: bold !important;
       margin: 0;
       padding: 0;
@@ -164,7 +227,6 @@ body, body * {
     .stats-table td {
       padding: 8px;
       text-align: center;
-     
     }
 
     .stats-table tr:hover {
@@ -178,75 +240,8 @@ body, body * {
     }
 
     @media (max-width: 768px) {
-      #teamHeader {
-        padding: 8px 0 0 8px;
-      }
-      
-      .team-header-container {
-        gap: 10px;
-      }
-      
-      #teamLogo {
-        width: 120px;
-        height: 120px;
-      }
-      
-      #teamName {
-        font-size: 1.8rem;
-      }
-
-      .roster-table th, 
-      .roster-table td {
-        padding: 8px;
-        font-size: 14px;
-      }
-
-      .stats-table th,
-      .stats-table td {
-        padding: 6px;
-        font-size: 12px;
-      }
+      /* ... responsive styles ... */
     }
-
     @media (max-width: 480px) {
-      .navbar {
-        padding: 12px 0;
-      }
-      
-      .navbar-container {
-        padding: 0 10px;
-      }
-      
-      .navbar-logo {
-        font-size: 20px;
-      }
-      
-      .navbar-link {
-        font-size: 14px;
-        padding: 6px 8px;
-      }
-      
-      #teamHeader {
-        margin-top: 58px;
-        padding: 5px 0 0 5px;
-      }
-      
-      #teamLogo {
-        width: 100px;
-        height: 100px;
-      }
-      
-      #teamName {
-        font-size: 1.5rem;
-      }
-      
-      #teamOwner {
-        font-size: 0.9rem;
-      }
-
-      .roster-table,
-      .stats-table {
-        display: block;
-        overflow-x: auto;
-      }
+      /* ... responsive styles ... */
     }
