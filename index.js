@@ -128,44 +128,57 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       }
 
-      function loadStandingsData() {
-        return new Promise(async (resolve, reject) => {
-          const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSc_gjjehNq1x1tXQappfHFEg-0ypvi1UJriEln5Ghv8SkfpG4k3bVDfYp-XEGXOiJdJFRJ5V_Xj3Sp/pub?gid=57730059&single=true&output=csv';
-          try {
-            const txt = await (await fetch(url)).text();
-            const data = Papa.parse(txt.trim(), { skipEmptyLines: true }).data;
+     function loadStandingsData() {
+  return new Promise(async (resolve, reject) => {
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUXxv2LI_CXHUr7EQM5gX5ddG9fRA2oeMbfnC5_ruhTjWC2WjIYBhGJ91-qPoioyf2y5k5K6gBngEt/pub?gid=341899210&single=true&output=csv';
+    try {
+      const txt = await (await fetch(url)).text();
+      const data = Papa.parse(txt.trim(), { skipEmptyLines: true }).data;
 
-            const headers = data[1].slice(5, 10);
-            headers[0] = 'Seed'; headers[4] = 'PCT';
-            const rows = data.slice(2, 10).map(r => r.slice(5, 10));
+      const headers = ['Team', 'Games Played', 'Wins', 'Losses', 'Win%'];
+      const columnIndexes = [0, 1, 2, 3, 7];
 
-            const thead = document.getElementById('standingsHeader'),
-              tbody = document.getElementById('standingsBody');
-            thead.innerHTML = ''; tbody.innerHTML = '';
+      const rows = data.slice(1, 9);
 
-            headers.forEach(h => {
-              const th = document.createElement('th');
-              th.textContent = h || '-';
-              thead.appendChild(th);
-            });
-            rows.forEach(r => {
-              const tr = document.createElement('tr');
-              r.forEach(c => {
-                const td = document.createElement('td');
-                td.textContent = c || '-';
-                tr.appendChild(td);
-              });
-              tbody.appendChild(tr);
-            });
-            resolve();
-          } catch (e) {
-            console.error(e);
-            document.getElementById('standingsBody').innerHTML =
-              `<tr><td colspan="5" class="error">Failed to load standings data.</td></tr>`;
-            reject(e);
-          }
+      // Fix incorrect team name if it appears
+      rows.forEach(row => {
+        if (row[0] && row[0].trim() === "Columbus RiverHawks") {
+          row[0] = "Columbus Riverhawks";
+        }
+      });
+
+      const thead = document.getElementById('standingsHeader'),
+            tbody = document.getElementById('standingsBody');
+      thead.innerHTML = '';
+      tbody.innerHTML = '';
+
+      // Create header row
+      headers.forEach(h => {
+        const th = document.createElement('th');
+        th.textContent = h;
+        thead.appendChild(th);
+      });
+
+      // Create body rows
+      rows.forEach(row => {
+        const tr = document.createElement('tr');
+        columnIndexes.forEach(i => {
+          const td = document.createElement('td');
+          td.textContent = row[i] || '-';
+          tr.appendChild(td);
         });
-      }
+        tbody.appendChild(tr);
+      });
+
+      resolve();
+    } catch (e) {
+      console.error(e);
+      document.getElementById('standingsBody').innerHTML =
+        `<tr><td colspan="5" class="error">Failed to load standings data.</td></tr>`;
+      reject(e);
+    }
+  });
+}
 
       // Slideshow buttons
       prevBtn.onclick = () => { prevSlide(); startSlideshow(); };
