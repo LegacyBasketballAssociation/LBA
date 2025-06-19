@@ -170,7 +170,7 @@
               console.log("Raw row data for badges:", rowData);
 
               const badgeColumns = {
-                'Aerial Wizard': rowData[56],
+                                'Aerial Wizard': rowData[56],
                 'Float Game': rowData[65],
                 'Hook Specialist': rowData[69],
                 'Layup Mixmaster': rowData[72],
@@ -191,8 +191,8 @@
                 'Break Starter': rowData[60],
                 'Dimer': rowData[64],
                 'Lightning Launch': rowData[73],
-                'Strong Handle': rowData[92],
-                'Unpluckable': rowData[93],
+                'Strong Handle': rowData[93],
+                'Unpluckable': rowData[94],
                 'Versatile Visionary': rowData[94],
                 'Challenger': rowData[62],
                 'Glove': rowData[66],
@@ -207,7 +207,7 @@
                 'Boxout Beast': rowData[59],
                 'Rebound Chaser': rowData[88],
                 'Brick Wall': rowData[61],
-                'Slippery Off Ball': rowData[91],
+                'Slippery Off Ball': rowData[92],
                 'Pogo Stick': rowData[82]
               };
 
