@@ -87,7 +87,7 @@
             dataRow2: 23, 
             dataRow3: 48, 
             dataRow4: 53, 
-            dataRow5: 50 
+            dataRow5: 45
         },
         UtahRaptors: { 
             name: "Utah Raptors", 
@@ -98,7 +98,7 @@
             dataRow2: 46, 
             dataRow3: 1, 
             dataRow4: 42, 
-            dataRow5: 45 
+            dataRow5: 50 
         }
     };
 
