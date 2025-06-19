@@ -12,95 +12,96 @@ const teamId = window.location.search.substring(1) || null;
 
 // Team data (unchanged)…
 const teams = {
-    ColumbusRiverhawks: { 
-        name: "Columbus Riverhawks", 
-        owner: "Kay Rivers", 
-        color: "#684428", 
-        logo: "https://drive.google.com/thumbnail?id=1E-WHv0i16L6ViK2AhLsY3tyduxo7j2nS&sz=w250-h180", 
-        dataRow: 15, 
-        dataRow2: 19, 
-        dataRow3: 57, 
-        dataRow4: 33, 
-        dataRow5: 14 
-    },
-    DallasSteers: { 
-        name: "Dallas Steers", 
-        owner: "Keyon Hens", 
-        color: "silver", 
-        logo: "https://drive.google.com/thumbnail?id=1pIxyc3TwFKx0fEkhk7Tyc_ae4E0kRiuk&sz=w250-h180", 
-        dataRow: 13, 
-        dataRow2: 7, 
-        dataRow3: 8, 
-        dataRow4: 17, 
-        dataRow5: 43 
-    },
-    DenverMountaineers: { 
-        name: "Denver Mountaineers", 
-        owner: "Hunter Jackson", 
-        color: "#E1A80E", 
-        logo: "https://drive.google.com/thumbnail?id=1wkB6z3U6EwTGnYjad__52dR84KWMloL2&sz=w250-h180", 
-        dataRow: 1, 
-        dataRow2: 31, 
-        dataRow3: 21, 
-        dataRow4: 22, 
-        dataRow5: 9 
-    },
-    MaineMobsters: { 
-        name: "Maine Mobsters", 
-        owner: "AK Abass", 
-        color: "gold", 
-        logo: "https://drive.google.com/thumbnail?id=1qZk64ky90r0Ddg_uhH7NOPQg5-vSHDjZ&sz=w250-h180", 
-        dataRow: 34, 
-        dataRow2: 29, 
-        dataRow3: 20, 
-        dataRow4: 27, 
-        dataRow5: 50 
-    },
-    MiamiViceSinners: { 
-        name: "Miami Vice Sinners", 
-        owner: "Kenan Kurt", 
-        color: "pink", 
-        logo: "https://drive.google.com/thumbnail?id=1qUSjUwrpWiHvExokwTkJWDCR0TZ9hlwT&sz=w250-h180", 
-        dataRow: 2, 
-        dataRow2: 6, 
-        dataRow3: 38, 
-        dataRow4: 40, 
-        dataRow5: 5
-    },
-    NewYorkCitySlickers: { 
-        name: "New York City Slickers", 
-        owner: "Maverick Doncic", 
-        color: "#263D4E", 
-        logo: "https://drive.google.com/thumbnail?id=1N0ZekAA21kXlQ9tnbyAseBePJJw79vy2&sz=w250-h180", 
-        dataRow: 18, 
-        dataRow2: 31, 
-        dataRow3: 25, 
-        dataRow4: 37, 
-        dataRow5: 45 
-    },
-    PhoenixHeat: { 
-        name: "Phoenix Heat", 
-        owner: "Razor Blades", 
-        color: "orange", 
-        logo: "https://drive.google.com/thumbnail?id=1h-vWWI_naDdsmKz2lsvfsPgFowBJQIWO&sz=w250-h180", 
-        dataRow: 3, 
-        dataRow2: 26, 
-        dataRow3: 24, 
-        dataRow4: 23, 
-        dataRow5: 12 
-    },
-    UtahRaptors: { 
-        name: "Utah Raptors", 
-        owner: "King Beowulf", 
-        color: "antiquewhite", 
-        logo: "https://drive.google.com/thumbnail?id=1zRbm7lk35HC9XMiOBEUhcBc_UMMhZ7t5&sz=w250-h180", 
-        dataRow: 4, 
-        dataRow2: 39, 
-        dataRow3: 30, 
-        dataRow4: 36, 
-        dataRow5: 35
-    }
-};
+        const teams = {
+        ColumbusRiverhawks: { 
+            name: "Columbus Riverhawks", 
+            owner: "Kay Rivers", 
+            color: "#684428", 
+            logo: "https://drive.google.com/thumbnail?id=1E-WHv0i16L6ViK2AhLsY3tyduxo7j2nS&sz=w250-h180", 
+            dataRow: 36, 
+            dataRow2: 7, 
+            dataRow3: 47, 
+            dataRow4: 27, 
+            dataRow5: 51 
+        },
+        DallasSteers: { 
+            name: "Dallas Steers", 
+            owner: "Keyon Hens", 
+            color: "silver", 
+            logo: "https://drive.google.com/thumbnail?id=1pIxyc3TwFKx0fEkhk7Tyc_ae4E0kRiuk&sz=w250-h180", 
+            dataRow: 38, 
+            dataRow2: 3, 
+            dataRow3: 54, 
+            dataRow4: 49, 
+            dataRow5: 16 
+        },
+        DenverMountaineers: { 
+            name: "Denver Mountaineers", 
+            owner: "Hunter Jackson", 
+            color: "#E1A80E", 
+            logo: "https://drive.google.com/thumbnail?id=1wkB6z3U6EwTGnYjad__52dR84KWMloL2&sz=w250-h180", 
+            dataRow: 24, 
+            dataRow2: 33, 
+            dataRow3: 6, 
+            dataRow4: 12, 
+            dataRow5: 21 
+        },
+        MaineMobsters: { 
+            name: "Maine Mobsters", 
+            owner: "AK Abass", 
+            color: "gold", 
+            logo: "https://drive.google.com/thumbnail?id=1qZk64ky90r0Ddg_uhH7NOPQg5-vSHDjZ&sz=w250-h180", 
+            dataRow: 5, 
+            dataRow2: 43, 
+            dataRow3: 19, 
+            dataRow4: 11, 
+            dataRow5: 31
+        },
+        MiamiViceSinners: { 
+            name: "Miami Vice Sinners", 
+            owner: "Kenan Kurt", 
+            color: "pink", 
+            logo: "https://drive.google.com/thumbnail?id=1qUSjUwrpWiHvExokwTkJWDCR0TZ9hlwT&sz=w250-h180", 
+            dataRow: 37, 
+            dataRow2: 17, 
+            dataRow3: 9, 
+            dataRow4: 20, 
+            dataRow5: 8
+        },
+        NewYorkCitySlickers: { 
+            name: "New York City Slickers", 
+            owner: "Maverick Doncic", 
+            color: "#263D4E", 
+            logo: "https://drive.google.com/thumbnail?id=1N0ZekAA21kXlQ9tnbyAseBePJJw79vy2&sz=w250-h180", 
+            dataRow: 44, 
+            dataRow2: 55, 
+            dataRow3: 2, 
+            dataRow4: 29, 
+            dataRow5: 34 
+        },
+        PhoenixHeat: { 
+            name: "Phoenix Heat", 
+            owner: "Razor Blades", 
+            color: "orange", 
+            logo: "https://drive.google.com/thumbnail?id=1h-vWWI_naDdsmKz2lsvfsPgFowBJQIWO&sz=w250-h180", 
+            dataRow: 52, 
+            dataRow2: 23, 
+            dataRow3: 48, 
+            dataRow4: 53, 
+            dataRow5: 50 
+        },
+        UtahRaptors: { 
+            name: "Utah Raptors", 
+            owner: "King Beowulf", 
+            color: "antiquewhite", 
+            logo: "https://drive.google.com/thumbnail?id=1zRbm7lk35HC9XMiOBEUhcBc_UMMhZ7t5&sz=w250-h180", 
+            dataRow: 39, 
+            dataRow2: 46, 
+            dataRow3: 1, 
+            dataRow4: 42, 
+            dataRow5: 45 
+        }
+    };
 
 function fetchRosterData() {
     showLoading();
