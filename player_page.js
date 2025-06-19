@@ -264,7 +264,7 @@
         if (params.player) {
           const playerName = decodeURIComponent(params.player);
           document.getElementById('playerName').textContent = playerName;
-          document.title = playerName + " | LBA";
+          document.title = playerName;
         }
 
         if (params.height) {
