@@ -43,7 +43,7 @@
             dataRow2: 33, 
             dataRow3: 6, 
             dataRow4: 12, 
-            dataRow5: 21 
+            dataRow5: 53 
         },
         MaineMobsters: { 
             name: "Maine Mobsters", 
@@ -86,7 +86,7 @@
             dataRow: 52, 
             dataRow2: 23, 
             dataRow3: 48, 
-            dataRow4: 53, 
+            dataRow4: 21, 
             dataRow5: 45
         },
         UtahRaptors: { 
