@@ -41,7 +41,7 @@
             logo: "https://drive.google.com/thumbnail?id=1wkB6z3U6EwTGnYjad__52dR84KWMloL2&sz=w250-h180", 
             dataRow: 24, 
             dataRow2: 33, 
-            dataRow3: 6, 
+            dataRow3: 22, 
             dataRow4: 12, 
             dataRow5: 53 
         },
