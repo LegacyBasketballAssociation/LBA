@@ -1,151 +1,183 @@
- // Toggle loading overlay
-      const loadingOverlay = document.getElementById('loadingOverlay');
-      function showLoading() { loadingOverlay.classList.add('active'); }
-      function hideLoading() { loadingOverlay.classList.remove('active'); }
+       // Toggle loading overlay
+       const loadingOverlay = document.getElementById('loadingOverlay');
 
-      // Function to get URL parameters
-      function getUrlParams() {
-        const params = new URLSearchParams(window.location.search);
-        return {
-          player: params.get('player'),
-          height: params.get('height'),
-          weight: params.get('weight'),
-          wingspan: params.get('wingspan'),
-          team: params.get('team'),
-          teamLogo: params.get('teamLogo'),
-          teamColor: params.get('teamColor'),
-          teamOwner: params.get('teamOwner'),
-          dataRow: params.get('dataRow')
-        };
-      }
+       function showLoading() {
+           loadingOverlay.classList.add('active');
+       }
 
-      // Function to find player by name in CSV data
-      function findPlayerByName(csvData, playerName) {
-        console.log("Searching for player:", playerName);
+       function hideLoading() {
+           loadingOverlay.classList.remove('active');
+       }
 
-        // Check if we have a header row by looking at the first row
-        const hasHeader = csvData.length > 0 && (
-          typeof csvData[0][0] === 'string' && 
-          csvData[0][0].toLowerCase().includes('name')
-        );
+       // Function to get URL parameters
+       function getUrlParams() {
+           const params = new URLSearchParams(window.location.search);
+           return {
+               player: params.get('player'),
+               height: params.get('height'),
+               weight: params.get('weight'),
+               wingspan: params.get('wingspan'),
+               team: params.get('team'),
+               teamLogo: params.get('teamLogo'),
+               teamColor: params.get('teamColor'),
+               teamOwner: params.get('teamOwner'),
+               dataRow: params.get('dataRow')
+           };
+       }
 
-        const startRow = hasHeader ? 1 : 0;
-        console.log("Has header row:", hasHeader, "Starting search from row:", startRow);
+       // Helper to clean up #DIV/0! and empty values
+       function cleanStat(value) {
+           return (!value || value === '#DIV/0!') ? '0%' : value;
+       }
 
-        for (let i = startRow; i < csvData.length; i++) {
-          const row = csvData[i];
-          if (row && row.length > 0) {
-            const csvPlayerName = row[0];
-            if (csvPlayerName && csvPlayerName.toString().toLowerCase().trim() === playerName.toLowerCase().trim()) {
-              console.log("Found player at row:", i, "Player name:", csvPlayerName);
-              return i;
-            }
-          }
-        }
+       // Find player row index by name
+       function findPlayerByName(csvData, playerName) {
+           const hasHeader = csvData.length > 0 && typeof csvData[0][0] === 'string' && csvData[0][0].toLowerCase().includes('name');
+           const startRow = hasHeader ? 1 : 0;
+           for (let i = startRow; i < csvData.length; i++) {
+               const row = csvData[i];
+               if (row && row[0] && row[0].toLowerCase().trim() === playerName.toLowerCase().trim()) {
+                   return i;
+               }
+           }
+           return -1;
+       }
 
-        console.log("Player not found in CSV data");
-        return -1;
-      }
+       // Function to darken color
+       function darkenColor(color, percent) {
+           const num = parseInt(color.replace('#', ''), 16);
+           const amt = Math.round(2.55 * percent);
+           const R = (num >> 16) - amt;
+           const G = (num >> 8 & 0x00FF) - amt;
+           const B = (num & 0x0000FF) - amt;
+           return `#${(
+                0x1000000 +
+                (R < 0 ? 0 : R) * 0x10000 +
+                (G < 0 ? 0 : G) * 0x100 +
+                (B < 0 ? 0 : B)
+              ).toString(16).slice(1)}`;
+       }
 
-      // Helper function to darken colors for borders
-      function darkenColor(color, percent) {
-        const num = parseInt(color.replace('#', ''), 16);
-        const amt = Math.round(2.55 * percent);
-        const R = (num >> 16) - amt;
-        const G = (num >> 8 & 0x00FF) - amt;
-        const B = (num & 0x0000FF) - amt;
-        return `#${(
-          0x1000000 +
-          (R < 0 ? 0 : R) * 0x10000 +
-          (G < 0 ? 0 : G) * 0x100 +
-          (B < 0 ? 0 : B)
-        ).toString(16).slice(1)}`;
-      }
+       // Fetch season averages and populate table
+       // Fetch season averages and populate table
+       function fetchSeasonAverages(dataRow, playerName = null) {
+           const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUXxv2LI_CXHUr7EQM5gX5ddG9fRA2oeMbfnC5_ruhTjWC2WjIYBhGJ91-qPoioyf2y5k5K6gBngEt/pub?gid=1444984150&single=true&output=csv';
+           const params = getUrlParams();
+           const teamColor = params.teamColor ? decodeURIComponent(params.teamColor) : '#ffc000'; // Default to gold if no color
 
-      // Function to fetch player attributes from CSV
-      function fetchPlayerAttributes(dataRow, playerName = null) {
-        showLoading();
-        console.log("fetchPlayerAttributes called with dataRow:", dataRow, "playerName:", playerName);
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJJKiG4UE5nmSlrtKQ79eKhNaxqnWEUpwKMlOrmiCgRSBe9uFsJ1ywQGCkaNnt5BwfwySEcWzuEZpq/pub?gid=408327260&single=true&output=csv';
+           Papa.parse(csvUrl, {
+               download: true,
+               header: false,
+               complete: function(results) {
+                   let targetRow = dataRow;
+                   if (targetRow === null && playerName) {
+                       targetRow = findPlayerByName(results.data, playerName);
+                   }
 
-        Papa.parse(csvUrl, {
-          download: true,
-          header: false,
-          complete: function(results) {
-            console.log("CSV data loaded, total rows:", results.data.length);
+                   if (targetRow >= 0 && results.data.length > targetRow) {
+                       const row = results.data[targetRow];
 
-            let targetRow = dataRow;
+                       const stats = {
+                           ppg: cleanStat(row[2]),
+                           rpg: cleanStat(row[3]),
+                           apg: cleanStat(row[4]),
+                           spg: cleanStat(row[5]),
+                           bpg: cleanStat(row[6]),
+                           fg: cleanStat(row[7]),
+                           threeP: cleanStat(row[8]),
+                           ft: cleanStat(row[9])
+                       };
 
-            if (targetRow === null && playerName) {
-              targetRow = findPlayerByName(results.data, playerName);
-            }
+                       const tbody = document.getElementById('statsBody');
+                       if (tbody) {
+                           tbody.innerHTML = ''; // Clear any previous data
+                           const tr = document.createElement('tr');
+                           Object.values(stats).forEach(val => {
+                               const td = document.createElement('td');
+                               td.textContent = val;
+                               td.style.color = teamColor; // Use team color here
+                               tr.appendChild(td);
+                           });
+                           tbody.appendChild(tr);
+                       }
+                   }
+               },
+               error: function(error) {
+                   console.error('Error loading season averages:', error);
+               }
+           });
+       }
 
-            console.log("Target row:", targetRow);
+       // (unchanged) Fetch player attributes
+       function fetchPlayerAttributes(dataRow, playerName = null) {
+           showLoading();
+           const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJJKiG4UE5nmSlrtKQ79eKhNaxqnWEUpwKMlOrmiCgRSBe9uFsJ1ywQGCkaNnt5BwfwySEcWzuEZpq/pub?gid=408327260&single=true&output=csv';
 
-            if (targetRow >= 0 && results.data.length > targetRow) {
-              const rowData = results.data[targetRow];
-              console.log("Raw row data:", rowData);
+           Papa.parse(csvUrl, {
+               download: true,
+               header: false,
+               complete: function(results) {
+                   let targetRow = dataRow;
+                   if (targetRow === null && playerName) {
+                       targetRow = findPlayerByName(results.data, playerName);
+                   }
 
-              const attributes = {
-                'driving-layup': rowData[5],
-                'post-fade': rowData[6],
-                'post-hook': rowData[7],
-                'post-moves': rowData[8],
-                'draw-foul': rowData[9],
-                'close-shot': rowData[10],
-                'mid-range': rowData[11],
-                'three-pt': rowData[12],
-                'free-throw': rowData[13],
-                'ball-control': rowData[14],
-                'pass-iq': rowData[15],
-                'pass-accuracy': rowData[16],
-                'off-rebound': rowData[17],
-                'standing-dunk': rowData[18],
-                'driving-dunk': rowData[19],
-                'shot-iq': rowData[20],
-                'pass-vision': rowData[21],
-                'hands': rowData[22],
-                'def-rebound': rowData[23],
-                'interior-defense': rowData[24],
-                'perimeter-defense': rowData[25],
-                'block': rowData[26],
-                'steal': rowData[27],
-                'speed': rowData[28],
-                'speed-with-ball': rowData[29],
-                'vertical': rowData[30],
-                'strength': rowData[31],
-                'hustle': rowData[32],
-                'agility': rowData[33],
-                'pass-perception': rowData[34],
-                'def-consistency': rowData[35],
-                'help-defense-iq': rowData[36],
-                'off-consistency': rowData[37],
-                'intangibles': rowData[38]
-              };
+                   if (targetRow >= 0 && results.data.length > targetRow) {
+                       const rowData = results.data[targetRow];
+                       const attributes = {
+                           'driving-layup': rowData[5],
+                           'post-fade': rowData[6],
+                           'post-hook': rowData[7],
+                           'post-moves': rowData[8],
+                           'draw-foul': rowData[9],
+                           'close-shot': rowData[10],
+                           'mid-range': rowData[11],
+                           'three-pt': rowData[12],
+                           'free-throw': rowData[13],
+                           'ball-control': rowData[14],
+                           'pass-iq': rowData[15],
+                           'pass-accuracy': rowData[16],
+                           'off-rebound': rowData[17],
+                           'standing-dunk': rowData[18],
+                           'driving-dunk': rowData[19],
+                           'shot-iq': rowData[20],
+                           'pass-vision': rowData[21],
+                           'hands': rowData[22],
+                           'def-rebound': rowData[23],
+                           'interior-defense': rowData[24],
+                           'perimeter-defense': rowData[25],
+                           'block': rowData[26],
+                           'steal': rowData[27],
+                           'speed': rowData[28],
+                           'speed-with-ball': rowData[29],
+                           'vertical': rowData[30],
+                           'strength': rowData[31],
+                           'hustle': rowData[32],
+                           'agility': rowData[33],
+                           'pass-perception': rowData[34],
+                           'def-consistency': rowData[35],
+                           'help-defense-iq': rowData[36],
+                           'off-consistency': rowData[37],
+                           'intangibles': rowData[38]
+                       };
 
-              Object.keys(attributes).forEach(id => {
-                const element = document.getElementById(id);
-                if (element) {
-                  const value = attributes[id];
-                  element.textContent = (value !== undefined && value !== null && value !== '') ? value : '-';
-                }
-              });
+                       Object.keys(attributes).forEach(id => {
+                           const el = document.getElementById(id);
+                           if (el) el.textContent = attributes[id] || '-';
+                       });
+                   } else {
+                       showNoDataMessage();
+                   }
+                   hideLoading();
+               },
+               error: function() {
+                   showNoDataMessage();
+                   hideLoading();
+               }
+           });
+       }
 
-            } else {
-              console.error("Row not found. Requested row:", targetRow, "Total rows:", results.data.length);
-              showNoDataMessage();
-            }
-            hideLoading();
-          },
-          error: function(error) {
-            console.error('Error loading player attributes:', error);
-            showNoDataMessage();
-            hideLoading();
-          }
-        });
-      }
-
-      // Function to fetch and color badges based on their values
+       // (unchanged) Fetch badge and apply color logic
       function fetchAndColorBadges(dataRow, playerName = null) {
         showLoading();
         console.log("fetchAndColorBadges called with dataRow:", dataRow, "playerName:", playerName);
@@ -248,103 +280,76 @@
         });
       }
 
-      function showNoDataMessage() {
-        const attributeElements = document.querySelectorAll('.attribute-value');
-        attributeElements.forEach(element => {
-          if (element.textContent === '-') {
-            element.textContent = 'N/A';
-            element.style.color = '#666';
-          }
-        });
-      }
+       // Show N/A if data is missing
+       function showNoDataMessage() {
+           document.querySelectorAll('.attribute-value').forEach(el => {
+               if (el.textContent === '-') {
+                   el.textContent = 'N/A';
+                   el.style.color = '#666';
+               }
+           });
+       }
 
-      function populatePlayerData() {
-        const params = getUrlParams();
+       // Populate UI with all player data
+       function populatePlayerData() {
+           const params = getUrlParams();
 
-        if (params.player) {
-          const playerName = decodeURIComponent(params.player);
-          document.getElementById('playerName').textContent = playerName;
-          document.title = playerName;
-        }
+           if (params.player) {
+               const name = decodeURIComponent(params.player);
+               document.getElementById('playerName').textContent = name;
+               document.title = name;
+           }
 
-        if (params.height) {
-          document.getElementById('playerHeight').textContent = decodeURIComponent(params.height);
-        }
-        if (params.weight) {
-          document.getElementById('playerWeight').textContent = decodeURIComponent(params.weight);
-        }
-        if (params.wingspan) {
-          document.getElementById('playerWingspan').textContent = decodeURIComponent(params.wingspan);
-        }
+           if (params.height) document.getElementById('playerHeight').textContent = decodeURIComponent(params.height);
+           if (params.weight) document.getElementById('playerWeight').textContent = decodeURIComponent(params.weight);
+           if (params.wingspan) document.getElementById('playerWingspan').textContent = decodeURIComponent(params.wingspan);
+           if (params.team) document.getElementById('playerTeam').textContent = decodeURIComponent(params.team);
 
-        if (params.team) {
-          const teamName = decodeURIComponent(params.team);
-          document.getElementById('playerTeam').textContent = teamName;
-        }
+           if (params.teamLogo) {
+               const logo = document.getElementById('teamLogo');
+               logo.src = decodeURIComponent(params.teamLogo);
+               logo.onerror = () => logo.src = 'https://via.placeholder.com/160?text=No+Logo';
+           }
 
-        if (params.teamLogo) {
-          const logoUrl = decodeURIComponent(params.teamLogo);
-          const img = document.getElementById('teamLogo');
-          img.src = logoUrl;
-          img.onerror = function() {
-            console.error("Failed to load team logo:", logoUrl);
-            this.src = "https://via.placeholder.com/160?text=No+Logo";
-          };
-        }
+           if (params.teamColor) {
+               const color = decodeURIComponent(params.teamColor);
+               ['playerName', 'playerTeam', 'playerHeight', 'playerWeight', 'playerWingspan'].forEach(id => {
+                   const el = document.getElementById(id);
+                   if (el) el.style.color = color;
+               });
+           }
 
-        if (params.teamColor) {
-          const color = decodeURIComponent(params.teamColor);
-          const elements = ['playerName', 'playerTeam', 'playerHeight', 'playerWeight', 'playerWingspan'];
-          elements.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-              element.style.color = color;
-            }
-          });
-        }
+           const row = params.dataRow ? parseInt(params.dataRow) : null;
+           const name = params.player ? decodeURIComponent(params.player) : null;
 
-        const dataRow = params.dataRow ? parseInt(params.dataRow) : null;
-        const playerName = params.player ? decodeURIComponent(params.player) : null;
+           fetchPlayerAttributes(row, name);
+           fetchAndColorBadges(row, name);
+           fetchSeasonAverages(row, name);
+           setupTabs();
+       }
 
-        if (dataRow !== null || playerName) {
-          console.log("Fetching player data - dataRow:", dataRow, "playerName:", playerName);
-          fetchPlayerAttributes(dataRow, playerName);
-          fetchAndColorBadges(dataRow, playerName);
-        } 
-      }
+       // Tabs
+       function setupTabs() {
+           const tabs = document.querySelectorAll('.master-player-tab');
+           tabs.forEach(tab => {
+               tab.addEventListener('click', () => {
+                   document.querySelectorAll('.master-player-tab').forEach(t => t.classList.remove('active'));
+                   document.querySelectorAll('.master-player-content').forEach(c => c.classList.remove('active'));
+                   tab.classList.add('active');
+                   document.getElementById(`${tab.getAttribute('data-tab')}-content`).classList.add('active');
+               });
+           });
+       }
 
-      function setupTabs() {
-        const tabs = document.querySelectorAll('.master-player-tab');
-
-        tabs.forEach(tab => {
-          tab.addEventListener('click', () => {
-            document.querySelectorAll('.master-player-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.master-player-content').forEach(c => c.classList.remove('active'));
-
-            tab.classList.add('active');
-            const tabName = tab.getAttribute('data-tab');
-            const content = document.getElementById(`${tabName}-content`);
-            if (content) {
-              content.classList.add('active');
-            }
-          });
-        });
-      }
-
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log("DOM fully loaded");
-        showLoading();
-
-        const params = getUrlParams();
-        console.log("URL Parameters:", params);
-
-        populatePlayerData();
-        setupTabs();
-
-        if (!params.player) {
-          console.warn("No player data in URL, using fallback");
-          document.getElementById('playerName').textContent = "Player Not Found";
-          document.getElementById('teamLogo').src = "https://via.placeholder.com/160?text=No+Player";
-          hideLoading();
-        }
-      });
+       // Initialize
+       document.addEventListener('DOMContentLoaded', function() {
+           showLoading();
+           const params = getUrlParams();
+           if (!params.player) {
+               document.getElementById('playerName').textContent = "Player Not Found";
+               document.getElementById('teamLogo').src = "https://via.placeholder.com/160?text=No+Player";
+               hideLoading();
+           } else {
+               populatePlayerData();
+           }
+       });
