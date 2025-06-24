@@ -34,7 +34,7 @@
             dataRow2: 3,
             dataRow3: 54,
             dataRow4: 49,
-            dataRow5: 16
+            dataRow5: 8
         },
         DenverMountaineers: {
             name: "Denver Mountaineers",
@@ -67,7 +67,7 @@
             dataRow2: 17,
             dataRow3: 9,
             dataRow4: 20,
-            dataRow5: 8
+            dataRow5: 16
         },
         NewYorkCitySlickers: {
             name: "New York City Slickers",
@@ -78,7 +78,7 @@
             dataRow2: 55,
             dataRow3: 2,
             dataRow4: 29,
-            dataRow5: 34
+            dataRow5: 26
         },
         PhoenixHeat: {
             name: "Phoenix Heat",
