@@ -1,4 +1,4 @@
-       // Toggle loading overlay
+// Toggle loading overlay
        const loadingOverlay = document.getElementById('loadingOverlay');
 
        function showLoading() {
@@ -61,7 +61,7 @@
        // Fetch season averages and populate table
        // Fetch season averages and populate table
        function fetchSeasonAverages(dataRow, playerName = null) {
-           const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUXxv2LI_CXHUr7EQM5gX5ddG9fRA2oeMbfnC5_ruhTjWC2WjIYBhGJ91-qPoioyf2y5k5K6gBngEt/pub?gid=1444984150&single=true&output=csv';
+           const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUXxv2LI_CXHUr7EQM5gX5ddG9fRA2oeMbfnC5_ruhTjWC2WjIYBhGJ91-qPoioyf2y5k5K6gBngEt/pub?gid=1692713008&single=true&output=csv';
            const params = getUrlParams();
            const teamColor = params.teamColor ? decodeURIComponent(params.teamColor) : '#ffc000'; // Default to gold if no color
 
@@ -78,16 +78,15 @@
                        const row = results.data[targetRow];
 
                        const stats = {
-                           ppg: cleanStat(row[2]),
-                           rpg: cleanStat(row[3]),
-                           apg: cleanStat(row[4]),
-                           spg: cleanStat(row[5]),
-                           bpg: cleanStat(row[6]),
-                           fg: cleanStat(row[7]),
-                           threeP: cleanStat(row[8]),
-                           ft: cleanStat(row[9])
+                           ppg: cleanStat(row[1]),
+                           rpg: cleanStat(row[2]),
+                           apg: cleanStat(row[3]),
+                           spg: cleanStat(row[4]),
+                           bpg: cleanStat(row[5]),
+                           fg: cleanStat(row[6]),
+                           threeP: cleanStat(row[7]),
+                           ft: cleanStat(row[8])
                        };
-
                        const tbody = document.getElementById('statsBody');
                        if (tbody) {
                            tbody.innerHTML = ''; // Clear any previous data
