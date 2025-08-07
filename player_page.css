@@ -1,3 +1,4 @@
+ /* === Loading overlay styles (with LBA logo) === */
     .loading-overlay {
       position: fixed;
       top: 0;
@@ -380,6 +381,28 @@
 
     .stats-table tr:last-child td {
       border-bottom: none;
+    }
+    .hotzone-area {
+        fill: gray;
+        stroke: #FFFFFF;
+        stroke-width: 2;
+        stroke-linejoin: round;
+    }
+    .zone-label {
+        font-size: 7px;
+        font-weight: bold;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        fill: white;
+        stroke: black;
+        stroke-width: 1px;
+        paint-order: stroke;
+        pointer-events: none;
+        font-family: Arial, sans-serif;
+    }
+    .vertical-text {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
     }
 
     @media (max-width: 1024px) {
